@@ -20,11 +20,17 @@ from pathlib import Path
 import re
 from langchain_ollama import ChatOllama
 from langchain_tavily import TavilySearch
-
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
-model = ChatOllama(model="qwen3:8b")
+# model = ChatOllama(model="qwen3:8b")
+
+model = ChatOpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPEN_ROUTER_API_KEY"),
+    model="nex-agi/nex-n2-pro:free"
+)
 
 class Task(BaseModel):
     id: int
@@ -676,20 +682,3 @@ def run(topic: str, as_of: Optional[str] = None):
     )
 
     return out
-
-def tavily_search(query: str, max_results: int = 5):
-
-    tool = TavilySearch(max_results=max_results)
-
-    response = tool.invoke({"query": query})
-
-    print("\n===== TAVILY RESPONSE =====")
-    print(type(response))
-    print(response)
-    print("===========================\n")
-
-    return response
-
-result = tavily_search("Dehradun")
-
-print(result)
