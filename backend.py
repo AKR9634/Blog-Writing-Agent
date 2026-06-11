@@ -21,8 +21,12 @@ import re
 from langchain_ollama import ChatOllama
 from langchain_tavily import TavilySearch
 from langchain_openai import ChatOpenAI
+import streamlit as st
 
 load_dotenv()
+
+os.environ["OPEN_ROUTER_API_KEY"] = st.secrets["OPEN_ROUTER_API_KEY"]
+os.environ["TAVILY_API_KEY"] = st.secrets["TAVILY_API_KEY"]
 
 # model = ChatOllama(model="qwen3:8b")
 
@@ -31,6 +35,7 @@ model = ChatOpenAI(
     api_key=os.getenv("OPEN_ROUTER_API_KEY"),
     model="nex-agi/nex-n2-pro:free"
 )
+
 
 class Task(BaseModel):
     id: int
